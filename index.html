@@ -907,7 +907,8 @@
     .nailist-inline { grid-template-columns: 1fr !important; }
     .nailist-inline img { min-height: 240px !important; max-height: 280px; }
     /* バッジはみ出し防止 */
-    .hero-badges { flex-wrap: wrap !important; overflow-x: visible !important; justify-content: center !important; }
+    .hero-badges { flex-wrap: wrap !important; overflow-x: visible !important; justify-content: center !important; width: 100% !important; }
+    .hero-badges > div { width: calc(50% - 16px) !important; align-items: center !important; }
 
     /* ABOUT section */
     #about { padding: 40px 24px !important; }
@@ -918,6 +919,9 @@
 
     /* SALON */
     .salon { padding: 56px 24px !important; grid-template-columns: 1fr; }
+
+    /* 所持資格 */
+    .qual-box { padding: 32px 24px !important; }
 
     /* MEDIA */
     section[style*="padding:80px"] { padding: 48px 24px !important; }
@@ -1192,7 +1196,7 @@
   </div>
 
   <!-- 所持資格 -->
-  <div style="margin-top:2px;background:white;padding:40px 48px;max-width:1200px;margin-left:auto;margin-right:auto;">
+  <div class="qual-box" style="margin-top:2px;background:white;padding:40px 48px;max-width:1200px;margin-left:auto;margin-right:auto;">
     <div class="section-label" style="margin-bottom:20px;">所持資格・認定</div>
     <div class="qual-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px 40px;">
       <div style="font-size:13px;color:var(--text);display:flex;align-items:center;gap:8px;line-height:1.5;"><span style="color:var(--accent);font-size:13px;">✦</span>日本ネイリスト技能検定 1級</div>
