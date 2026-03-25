@@ -130,7 +130,7 @@
     font-size: clamp(30px, 2.8vw, 44px);
     font-weight: 300;
     line-height: 1.5;
-    color: var(--dark);
+    color: var(--cream);
     margin-bottom: 20px;
   }
 
@@ -141,7 +141,7 @@
 
   .hero-sub {
     font-size: 15px;
-    color: var(--light-text);
+    color: rgba(250,247,242,0.75);
     letter-spacing: 0.06em;
     margin-bottom: 48px;
     line-height: 2.2;
@@ -154,13 +154,13 @@
     gap: 12px;
     margin-bottom: 52px;
     padding-left: 16px;
-    border-left: 2px solid var(--sand);
+    border-left: 2px solid rgba(184,149,106,0.4);
   }
 
   .award-item {
     font-size: 13px;
     letter-spacing: 0.06em;
-    color: var(--taupe);
+    color: rgba(250,247,242,0.6);
     display: flex;
     align-items: center;
     gap: 10px;
@@ -908,7 +908,7 @@
     .nailist-inline img { min-height: 240px !important; max-height: 280px; }
     /* バッジはみ出し防止 */
     .hero-badges { flex-wrap: wrap !important; overflow-x: visible !important; justify-content: center !important; width: 100% !important; }
-    .hero-badges > div { width: calc(50% - 16px) !important; align-items: center !important; }
+    .hero-badges > div { align-items: center !important; }
 
     /* ABOUT section */
     #about { padding: 40px 24px !important; }
@@ -989,13 +989,13 @@
 </nav>
 
 <!-- HERO -->
-<section class="hero" style="grid-template-columns:1fr;position:relative;min-height:100vh;">
+<section class="hero" style="grid-template-columns:1fr;position:relative;">
   <div style="position:absolute;inset:0;z-index:0;">
     <img src="img_hero.jpg" alt="施術風景" style="width:100%;height:100%;object-fit:cover;object-position:center center;">
-    <div style="position:absolute;inset:0;background:rgba(250,247,242,0.72);"></div>
+    <div style="position:absolute;inset:0;background:rgba(28,20,16,0.75);"></div>
   </div>
   <div class="hero-left" style="position:relative;z-index:1;max-width:640px;">
-    <div class="hero-eyebrow">Private Nail Salon · 千葉ニュータウン</div>
+    <div class="hero-eyebrow">Private Nail Salon<br>千葉ニュータウン</div>
     <h1 class="hero-h1">
       プロのネイリストが<br>
       技術を学びに来る、<br>
