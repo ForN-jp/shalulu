@@ -1320,7 +1320,7 @@
   </div>
 
   <div class="review-track-wrap" style="position:relative;">
-    <div class="review-track" id="reviewTrack" style="display:flex;gap:20px;padding:0 80px;cursor:grab;user-select:none;">
+    <div class="review-track" id="reviewTrack" style="display:flex;gap:20px;padding:0 80px;cursor:grab;user-select:none;scroll-snap-type:x mandatory;overflow-x:auto;">
 
       <div class="review-card">
         <div class="review-stars">★★★★★</div>
@@ -1415,6 +1415,7 @@
     flex-direction: column;
     gap: 16px;
     transition: background 0.3s;
+    scroll-snap-align: start;
   }
   .review-card:hover { background: var(--cream); }
   .review-stars { color: var(--accent); font-size: 16px; letter-spacing: 4px; }
