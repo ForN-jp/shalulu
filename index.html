@@ -813,11 +813,69 @@
   .hero-awards { animation: fadeUp 0.8s 0.35s ease forwards; opacity: 0; }
   .hero-btn { animation: fadeUp 0.8s 0.45s ease forwards; opacity: 0; }
 
+  /* ハンバーガー（PCでは非表示） */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 36px; height: 36px;
+    background: none; border: none; cursor: pointer; padding: 4px;
+  }
+  .hamburger span {
+    display: block;
+    width: 22px; height: 1.5px;
+    background: var(--dark);
+    transition: transform 0.3s, opacity 0.3s;
+  }
+  .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+  /* モバイルメニュー */
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    top: 64px; left: 0; right: 0;
+    background: rgba(250,247,242,0.97);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--sand);
+    z-index: 99;
+    padding: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s cubic-bezier(0.22, 1, 0.36, 1), padding 0.35s;
+  }
+  .mobile-menu.open {
+    max-height: 400px;
+    padding: 8px 0 16px;
+  }
+  .mobile-menu ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+  }
+  .mobile-menu ul li a {
+    display: block;
+    padding: 14px 28px;
+    font-size: 14px;
+    letter-spacing: 0.18em;
+    color: var(--light-text);
+    text-decoration: none;
+    text-transform: uppercase;
+    border-bottom: 1px solid rgba(216,196,181,0.25);
+    transition: color 0.2s, background 0.2s;
+  }
+  .mobile-menu ul li:last-child a { border-bottom: none; }
+  .mobile-menu ul li a:hover { color: var(--accent); background: var(--cream); }
+
   /* RESPONSIVE */
   @media (max-width: 900px) {
     nav { padding: 16px 24px; }
     .nav-links { display: none; }
-    .nav-cta { font-size: 14px; padding: 10px 20px; }
+    .nav-cta { display: none; }
+    .hamburger { display: flex; }
+    .mobile-menu { display: block; }
     /* バッジ列をスクロール対応 */
     .hero-badges { flex-wrap: wrap !important; overflow-x: visible !important; padding-bottom:8px; scrollbar-width:none; justify-content: flex-start; }
     .hero-badges::-webkit-scrollbar { display:none; }
@@ -935,7 +993,7 @@
     /* REVIEWS */
     div[style*="padding:0 80px"] { padding: 0 24px !important; }
     div[style*="padding:0 80px 56px"] { padding: 0 24px 40px !important; }
-    .review-track { padding: 0 24px !important; }
+    .review-track { padding: 0 16px !important; }
   }
 </style>
 
@@ -944,7 +1002,7 @@
   .scroll-fade {
     opacity: 0;
     transform: translateY(40px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
+    transition: opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1), transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
   }
   .scroll-fade.visible {
     opacity: 1;
@@ -952,8 +1010,8 @@
   }
   .scroll-fade-left {
     opacity: 0;
-    transform: translateX(-40px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
+    transform: translateX(-60px);
+    transition: opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1), transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
   }
   .scroll-fade-left.visible {
     opacity: 1;
@@ -961,17 +1019,19 @@
   }
   .scroll-fade-right {
     opacity: 0;
-    transform: translateX(40px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
+    transform: translateX(60px);
+    transition: opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1), transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
   }
   .scroll-fade-right.visible {
     opacity: 1;
     transform: translateX(0);
   }
-  .scroll-fade-delay-1 { transition-delay: 0.1s; }
-  .scroll-fade-delay-2 { transition-delay: 0.2s; }
-  .scroll-fade-delay-3 { transition-delay: 0.3s; }
-  .scroll-fade-delay-4 { transition-delay: 0.4s; }
+  .scroll-fade-delay-1 { transition-delay: 0.12s; }
+  .scroll-fade-delay-2 { transition-delay: 0.24s; }
+  .scroll-fade-delay-3 { transition-delay: 0.36s; }
+  .scroll-fade-delay-4 { transition-delay: 0.48s; }
+  .scroll-fade-delay-5 { transition-delay: 0.60s; }
+  .scroll-fade-delay-6 { transition-delay: 0.72s; }
 </style>
 
 <!-- 固定予約ボタン（スマホ） -->
@@ -1027,7 +1087,19 @@
     <li><a href="#menu">メニュー</a></li>
   </ul>
   <a href="#reservation" class="nav-cta">ご予約</a>
+  <button class="hamburger" id="hamburgerBtn" aria-label="メニュー" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+<div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+  <ul>
+    <li><a href="#why">About</a></li>
+    <li><a href="#credentials">実績</a></li>
+    <li><a href="#salon">サロン</a></li>
+    <li><a href="#menu">メニュー</a></li>
+    <li><a href="#reservation">ご予約</a></li>
+  </ul>
+</div>
 
 <!-- HERO -->
 <section style="display:flex;flex-direction:column;">
@@ -1320,7 +1392,7 @@
   </div>
 
   <div class="review-track-wrap" style="position:relative;">
-    <div class="review-track" id="reviewTrack" style="display:flex;gap:20px;padding:0 80px;cursor:grab;user-select:none;scroll-snap-type:x mandatory;overflow-x:auto;">
+    <div class="review-track" id="reviewTrack" style="display:flex;gap:20px;padding:0 32px;cursor:grab;user-select:none;scroll-snap-type:x mandatory;overflow-x:auto;">
 
       <div class="review-card">
         <div class="review-stars">★★★★★</div>
@@ -1397,8 +1469,11 @@
     </div>
   </div>
 
+  <!-- ドットインジケーター -->
+  <div id="reviewDots" style="display:flex;justify-content:center;gap:8px;margin-top:28px;"></div>
+
   <!-- ドラッグヒント -->
-  <div style="display:flex;justify-content:center;align-items:center;gap:10px;margin-top:32px;font-size:12px;color:var(--light-text);letter-spacing:0.12em;">
+  <div style="display:flex;justify-content:center;align-items:center;gap:10px;margin-top:16px;font-size:12px;color:var(--light-text);letter-spacing:0.12em;">
     <svg width="32" height="12" viewBox="0 0 32 12" fill="none" style="transform:scaleX(-1)"><line x1="0" y1="6" x2="28" y2="6" stroke="#B8956A" stroke-width="1"/><polyline points="24,2 30,6 24,10" stroke="#B8956A" stroke-width="1" fill="none"/></svg>
     横にスクロールして読む
     <svg width="32" height="12" viewBox="0 0 32 12" fill="none"><line x1="0" y1="6" x2="28" y2="6" stroke="#B8956A" stroke-width="1"/><polyline points="24,2 30,6 24,10" stroke="#B8956A" stroke-width="1" fill="none"/></svg>
@@ -1422,11 +1497,24 @@
   .review-card.is-active {
     transform: scale(1);
     opacity: 1;
+    box-shadow: 0 8px 32px rgba(44, 36, 32, 0.12);
   }
   .review-card:hover { background: var(--cream); }
   .review-stars { color: var(--accent); font-size: 16px; letter-spacing: 4px; }
   .review-text { font-size: 14px; color: var(--light-text); line-height: 2; flex: 1; }
   .review-tag { font-size: 12px; color: var(--accent); letter-spacing: 0.1em; font-family: 'Jost', sans-serif; }
+
+  .review-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--sand);
+    border: none; padding: 0; cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+  }
+  .review-dot.is-active {
+    background: var(--accent);
+    transform: scale(1.5);
+  }
 
   @media (max-width: 900px) {
     .review-card { flex: 0 0 85vw; padding: 28px 24px; }
@@ -1469,14 +1557,31 @@
   track.style.scrollbarWidth = 'none';
   track.style.msOverflowStyle = 'none';
 
-  // アクティブカードのスケールアニメーション
+  // アクティブカードのスケールアニメーション＋ドットインジケーター
   const cards = track.querySelectorAll('.review-card');
+  const dotsContainer = document.getElementById('reviewDots');
+
+  // ドット生成
+  const dots = Array.from(cards).map((_, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'review-dot';
+    btn.setAttribute('aria-label', '口コミ ' + (i + 1));
+    btn.addEventListener('click', () => {
+      cards[i].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    });
+    dotsContainer.appendChild(btn);
+    return btn;
+  });
+
   const cardObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
+      const idx = Array.from(cards).indexOf(entry.target);
       if (entry.intersectionRatio >= 0.6) {
         entry.target.classList.add('is-active');
+        if (dots[idx]) dots[idx].classList.add('is-active');
       } else {
         entry.target.classList.remove('is-active');
+        if (dots[idx]) dots[idx].classList.remove('is-active');
       }
     });
   }, { root: track, threshold: [0, 0.6] });
@@ -1640,15 +1745,17 @@
 <script>
   // スクロールアニメーション
   (function () {
-    // セクションにアニメーションクラスを付与
+    // セクションに偶数/奇数で左右交互スライドインを付与
     const sections = document.querySelectorAll('section');
+    var sectionIdx = 0;
     sections.forEach(function (sec) {
-      // ヒーローセクションは除外（最初から表示）
       if (sec.classList.contains('hero')) return;
-      sec.classList.add('scroll-fade');
+      var cls = (sectionIdx % 2 === 0) ? 'scroll-fade-left' : 'scroll-fade-right';
+      sec.classList.add(cls);
+      sectionIdx++;
     });
 
-    // 子要素にも遅延アニメーションを付与
+    // 子要素にも stagger delay を付与（0.12s 刻み）
     const animTargets = [
       { selector: '.why .why-card', cls: 'scroll-fade', delays: true },
       { selector: '.menu-item',     cls: 'scroll-fade', delays: true },
@@ -1658,9 +1765,9 @@
     animTargets.forEach(function (t) {
       document.querySelectorAll(t.selector).forEach(function (el, i) {
         el.classList.add(t.cls);
-        if (t.delays) {
-          var d = i % 4;
-          if (d > 0) el.classList.add('scroll-fade-delay-' + d);
+        if (t.delays && i > 0) {
+          var d = Math.min(i, 6);
+          el.classList.add('scroll-fade-delay-' + d);
         }
       });
     });
@@ -1688,6 +1795,28 @@
     });
   }, { threshold: 0.1 });
   if (ctaSection) observer.observe(ctaSection);
+
+  // ハンバーガーメニュー
+  (function() {
+    const btn = document.getElementById('hamburgerBtn');
+    const menu = document.getElementById('mobileMenu');
+    if (!btn || !menu) return;
+    btn.addEventListener('click', function() {
+      const isOpen = menu.classList.toggle('open');
+      btn.classList.toggle('open', isOpen);
+      btn.setAttribute('aria-expanded', isOpen);
+      menu.setAttribute('aria-hidden', !isOpen);
+    });
+    // リンクをタップしたらメニューを閉じる
+    menu.querySelectorAll('a').forEach(function(a) {
+      a.addEventListener('click', function() {
+        menu.classList.remove('open');
+        btn.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+        menu.setAttribute('aria-hidden', 'true');
+      });
+    });
+  })();
 </script>
 
 </body>
