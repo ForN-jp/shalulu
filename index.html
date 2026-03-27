@@ -21,7 +21,8 @@
     --light-text: #6B5B52;
   }
 
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; overflow-x: hidden; }
+  section { overflow-x: hidden; }
 
   body {
     font-family: 'Zen Kaku Gothic New', sans-serif;
@@ -86,6 +87,8 @@
   .nav-cta:hover {
     background: var(--accent);
     color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(184, 149, 106, 0.3);
   }
 
   /* HERO */
@@ -190,6 +193,8 @@
 
   .hero-btn:hover {
     background: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(184, 149, 106, 0.35);
   }
 
   .hero-btn span {
@@ -736,7 +741,11 @@
     display: inline-block;
   }
 
-  .btn-primary:hover { background: var(--accent); }
+  .btn-primary:hover {
+    background: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(184, 149, 106, 0.35);
+  }
 
   .btn-secondary {
     border: 1px solid var(--taupe);
@@ -806,12 +815,12 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
-  .hero-eyebrow { animation: fadeUp 0.8s ease forwards; }
-  .hero-badges { animation: fadeUp 0.8s ease forwards; }
-  .hero-h1 { animation: fadeUp 0.8s 0.15s ease forwards; opacity: 0; }
-  .hero-sub { animation: fadeUp 0.8s 0.25s ease forwards; opacity: 0; }
-  .hero-awards { animation: fadeUp 0.8s 0.35s ease forwards; opacity: 0; }
-  .hero-btn { animation: fadeUp 0.8s 0.45s ease forwards; opacity: 0; }
+  .hero-eyebrow { animation: fadeUp 1.1s cubic-bezier(0.22, 1, 0.36, 1) both; }
+  .hero-badges { animation: fadeUp 1.1s 0.15s cubic-bezier(0.22, 1, 0.36, 1) both; opacity: 0; }
+  .hero-h1 { animation: fadeUp 1.1s 0.30s cubic-bezier(0.22, 1, 0.36, 1) both; opacity: 0; }
+  .hero-sub { animation: fadeUp 1.1s 0.45s cubic-bezier(0.22, 1, 0.36, 1) both; opacity: 0; }
+  .hero-awards { animation: fadeUp 1.1s 0.60s cubic-bezier(0.22, 1, 0.36, 1) both; opacity: 0; }
+  .hero-btn { animation: fadeUp 1.1s 0.75s cubic-bezier(0.22, 1, 0.36, 1) both; opacity: 0; }
 
   /* ハンバーガー（PCでは非表示） */
   .hamburger {
@@ -1002,7 +1011,7 @@
   .scroll-fade {
     opacity: 0;
     transform: translateY(40px);
-    transition: opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1), transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: opacity 1.1s cubic-bezier(0.22, 1, 0.36, 1), transform 1.1s cubic-bezier(0.22, 1, 0.36, 1);
   }
   .scroll-fade.visible {
     opacity: 1;
@@ -1011,7 +1020,7 @@
   .scroll-fade-left {
     opacity: 0;
     transform: translateX(-60px);
-    transition: opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1), transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: opacity 1.1s cubic-bezier(0.22, 1, 0.36, 1), transform 1.1s cubic-bezier(0.22, 1, 0.36, 1);
   }
   .scroll-fade-left.visible {
     opacity: 1;
@@ -1020,7 +1029,7 @@
   .scroll-fade-right {
     opacity: 0;
     transform: translateX(60px);
-    transition: opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1), transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: opacity 1.1s cubic-bezier(0.22, 1, 0.36, 1), transform 1.1s cubic-bezier(0.22, 1, 0.36, 1);
   }
   .scroll-fade-right.visible {
     opacity: 1;
@@ -1032,6 +1041,15 @@
   .scroll-fade-delay-4 { transition-delay: 0.48s; }
   .scroll-fade-delay-5 { transition-delay: 0.60s; }
   .scroll-fade-delay-6 { transition-delay: 0.72s; }
+
+  /* セクションタイトル clip-path スライドアップ */
+  @keyframes titleReveal {
+    from { clip-path: inset(0 0 100% 0); opacity: 0; transform: translateY(20px); }
+    to   { clip-path: inset(0 0 0% 0);   opacity: 1; transform: translateY(0); }
+  }
+  .title-reveal {
+    animation: titleReveal 1.1s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
 </style>
 
 <!-- 固定予約ボタン（スマホ） -->
@@ -1235,17 +1253,17 @@
     </div>
     <div class="stat-box">
       <img src="img_putiel.jpg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.06;">
-      <span class="stat-num" style="position:relative;">100名<span style="font-size:22px;font-weight:700;">以上</span></span>
+      <span class="stat-num" style="position:relative;" data-count="100" data-suffix="名"><span class="stat-count-val">100</span>名<span style="font-size:22px;font-weight:700;">以上</span></span>
       <div class="stat-label" style="position:relative;">ビューティーワールドジャパンやネイルエキスポなど、大規模イベントでの登壇・デモ受講者数。</div>
     </div>
     <div class="stat-box">
       <img src="img_salon.jpg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.06;">
-      <span class="stat-num" style="position:relative;">14年<span style="font-size:22px;font-weight:700;">以上</span></span>
+      <span class="stat-num" style="position:relative;" data-count="14" data-suffix="年"><span class="stat-count-val">14</span>年<span style="font-size:22px;font-weight:700;">以上</span></span>
       <div class="stat-label" style="position:relative;">ネイリスト歴は14年以上。プライベートサロン運営実績9年以上。</div>
     </div>
     <div class="stat-box">
       <img src="img_instagram.png" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.06;">
-      <span class="stat-num" style="position:relative;">1.6万<span style="font-size:22px;font-weight:700;">人</span></span>
+      <span class="stat-num" style="position:relative;" data-count="1.6" data-suffix="万" data-decimal="1"><span class="stat-count-val">1.6</span>万<span style="font-size:22px;font-weight:700;">人</span></span>
       <div class="stat-label" style="position:relative;">Instagramを中心にSNS総フォロワーは1.6万人。業界関係者も多数フォロー。</div>
     </div>
   </div>
@@ -1489,9 +1507,10 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
-    transition: background 0.3s, transform 0.3s ease, opacity 0.3s ease;
+    transition: background 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     scroll-snap-align: center;
-    transform: scale(0.92);
+    scroll-snap-stop: always;
+    transform: scale(0.88);
     opacity: 0.6;
   }
   .review-card.is-active {
@@ -1784,6 +1803,47 @@
 
     document.querySelectorAll('.scroll-fade, .scroll-fade-left, .scroll-fade-right')
       .forEach(function (el) { io.observe(el); });
+
+    // セクションタイトル（h2）にclip-pathスライドアップを付与
+    document.querySelectorAll('section h2').forEach(function(h2) {
+      if (h2.closest('.hero')) return;
+      h2.classList.add('title-reveal');
+      h2.style.animationPlayState = 'paused';
+    });
+    var titleIo = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.style.animationPlayState = 'running';
+          titleIo.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('section h2.title-reveal').forEach(function(el) { titleIo.observe(el); });
+
+    // カウントアップアニメーション
+    var countIo = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (!entry.isIntersecting) return;
+        countIo.unobserve(entry.target);
+        var el = entry.target;
+        var target = parseFloat(el.dataset.count);
+        var decimal = parseInt(el.dataset.decimal || '0');
+        var valEl = el.querySelector('.stat-count-val');
+        if (!valEl) return;
+        var duration = 1400;
+        var start = performance.now();
+        function step(now) {
+          var progress = Math.min((now - start) / duration, 1);
+          var ease = 1 - Math.pow(1 - progress, 3);
+          var current = (target * ease);
+          valEl.textContent = decimal > 0 ? current.toFixed(decimal) : Math.floor(current);
+          if (progress < 1) requestAnimationFrame(step);
+          else valEl.textContent = decimal > 0 ? target.toFixed(decimal) : target;
+        }
+        requestAnimationFrame(step);
+      });
+    }, { threshold: 0.4 });
+    document.querySelectorAll('.stat-num[data-count]').forEach(function(el) { countIo.observe(el); });
   })();
 
   // 固定予約ボタン
