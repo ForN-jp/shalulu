@@ -1410,7 +1410,7 @@
   </div>
 
   <div class="review-track-wrap" style="position:relative;width:85%;margin:0 auto;">
-    <div class="review-track" id="reviewTrack" style="display:flex;gap:20px;padding:0 32px;cursor:grab;user-select:none;scroll-snap-type:x proximity;overflow-x:auto;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;scroll-padding:0 50%;">
+    <div class="review-track" id="reviewTrack" style="display:flex;gap:20px;padding:0 32px;cursor:grab;user-select:none;overflow-x:auto;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;">
 
       <div class="review-card">
         <div class="review-stars">★★★★★</div>
@@ -1508,7 +1508,6 @@
     flex-direction: column;
     gap: 16px;
     transition: background 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    scroll-snap-align: center;
     transform: scale(0.88);
     opacity: 0.6;
   }
@@ -1560,16 +1559,49 @@
     const x = e.pageX - track.offsetLeft;
     track.scrollLeft = scrollLeft - (x - startX) * 1.5;
   });
-  // Touch
-  let touchStartX, touchScrollLeft;
+  // Touch — JSスナップ実装
+  let touchStartX = 0, touchScrollLeft = 0, currentCardIdx = 0;
+
+  function getCardStep() {
+    return cards[0] ? cards[0].offsetWidth + 20 : 0; // 20 = gap
+  }
+
+  function scrollToCard(idx) {
+    idx = Math.max(0, Math.min(idx, cards.length - 1));
+    currentCardIdx = idx;
+    const trackCenter = track.offsetWidth / 2;
+    const card = cards[idx];
+    const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+    track.scrollTo({ left: cardCenter - trackCenter, behavior: 'smooth' });
+  }
+
   track.addEventListener('touchstart', e => {
     touchStartX = e.touches[0].pageX;
     touchScrollLeft = track.scrollLeft;
+    // 現在のカードインデックスを計算
+    const trackCenter = track.scrollLeft + track.offsetWidth / 2;
+    let closest = 0, minDist = Infinity;
+    cards.forEach((card, i) => {
+      const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+      const dist = Math.abs(cardCenter - trackCenter);
+      if (dist < minDist) { minDist = dist; closest = i; }
+    });
+    currentCardIdx = closest;
   }, { passive: true });
+
   track.addEventListener('touchmove', e => {
-    const x = e.touches[0].pageX;
-    track.scrollLeft = touchScrollLeft - (x - touchStartX) * 1.2;
+    const dx = touchStartX - e.touches[0].pageX;
+    track.scrollLeft = touchScrollLeft + dx;
   }, { passive: true });
+
+  track.addEventListener('touchend', e => {
+    const diff = touchStartX - e.changedTouches[0].pageX;
+    if (Math.abs(diff) >= 30) {
+      scrollToCard(currentCardIdx + (diff > 0 ? 1 : -1));
+    } else {
+      scrollToCard(currentCardIdx);
+    }
+  });
   // overflow scroll
   track.style.overflowX = 'scroll';
   track.style.scrollbarWidth = 'none';
